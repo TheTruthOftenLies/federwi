@@ -1,0 +1,18 @@
+{
+  "name": "federwi-v2",
+  "version": "1.0.0",
+  "description": "Federwi V2 - Personal Task Management App",
+  "private": true,
+  "scripts": {
+    "start": "lite-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.2",
+    "@popperjs/core": "^2.11.8",
+    "material-icons": "^1.13.12"
+  },
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  }
+} 

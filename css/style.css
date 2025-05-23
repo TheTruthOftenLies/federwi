@@ -1,0 +1,302 @@
+/* Federwi V2 - Dark Theme CSS */
+
+:root {
+  --primary-bg: transparent;
+  --secondary-bg: rgba(0, 0, 0, 0.4);
+  --card-bg: rgba(0, 0, 0, 0.4);
+  --primary-text: #ffffff;
+  --secondary-text: #bbbbbb;
+  --accent-color: #065535;
+  --danger-color: #f44336;
+  --success-color: #4CAF50;
+  --warning-color: #ff9800;
+  --info-color: #2196F3;
+}
+
+body {
+  background-image: url('../img/landscape background.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: var(--primary-text);
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  /* Ensuring the body takes up the full viewport */
+  width: 100vw;
+ 
+  min-height: 100vh;
+  /* width: 100%;
+  height: 100%; */
+  transition: background-image 1s ease-in-out;
+  /* Enhanced image quality properties */
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* Header - Transparent but preserved exactly */
+.navbar {
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 10px 0;
+}
+
+.navbar-dark .navbar-nav .nav-link,
+.navbar-dark .navbar-brand {
+  color: var(--primary-text);
+}
+
+.navbar-brand {
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-brand img {
+  display: inline-block;
+  height: 170%;
+  width: auto;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+/* Main content area - single transparent block with increased max-width */
+.floating-content {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  backdrop-filter: blur(2px);
+  padding: 2rem;
+  margin: 40px auto 20px;
+  width: 95%;
+  max-width: 1800px;
+  z-index: 2;
+  position: relative;
+  color: var(--primary-text);
+}
+
+/* Add top buffer for home page content */
+#home-content {
+  margin-top: 50%; /* Increased margin for buffer */
+}
+
+/* Center content styles */
+.page-header {
+  padding: 2%;
+  text-align: center;
+}
+
+.page-header img {
+  max-width: 1000px; /* Doubled size */
+  height: auto;
+  
+}
+
+.page-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.page-header .lead {
+  font-size: 1.25rem;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.page-header .buttons {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.page-header .buttons .btn {
+  margin: 0;
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+  min-width: 120px;
+  transition: all 0.3s ease;
+}
+
+.page-header .buttons .btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.page-header .buttons .btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive adjustments for content area */
+@media (min-width: 1921px) {
+  .floating-content {
+    max-width: 1920px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .floating-content {
+    width: 95%;
+  }
+}
+
+.floating-content h1, .floating-content h2, .floating-content h3, .floating-content h4, .floating-content h5, .floating-content h6,
+.floating-content p, .floating-content span, .floating-content li {
+  color: var(--primary-text);
+}
+
+/* Remove excessive layers */
+.page-header {
+  padding-top: 80px;
+  position: relative;
+  background: transparent;
+  box-shadow: none;
+}
+
+.mask {
+  display: none;
+}
+
+/* Simplify cards */
+.card {
+  background-color: transparent;
+  /*border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;*/
+  box-shadow: none;
+  margin-bottom: 20px;
+}
+
+.card-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-primary {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+.btn-primary:hover {
+  background-color: #6f4c9a;
+  border-color: #6f4c9a;
+}
+
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+}
+
+a:hover {
+  color: #5957e5;
+  text-decoration: none;
+}
+
+.text-muted {
+  color: var(--secondary-text) !important;
+}
+
+/* Form styling */
+.form-control {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.form-control:focus {
+  background-color: rgba(0, 0, 0, 0.4);
+  border-color: var(--accent-color);
+  color: #ffffff;
+  box-shadow: 0 0 0 0.2rem rgba(132, 88, 179, 0.25);
+}
+
+.form-control::placeholder {
+  color: #ffffff;
+  opacity: 0.7;
+}
+
+/* Fixed footer that matches header style */
+footer {
+  background-color: var(--secondary-bg) !important;
+  backdrop-filter: blur(10px);
+  color: var(--primary-text);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+footer a {
+  color: var(--primary-text) !important;
+}
+
+footer p {
+  color: var(--primary-text);
+  margin: 0;
+}
+
+/* For buttons inside lists and content areas */
+.btn-outline-light {
+  color: var(--primary-text);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-outline-light:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--primary-text);
+}
+
+/* List items */
+.list-group-item {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: var(--primary-text);
+}
+
+/* Make sure content doesn't get hidden by fixed footer */
+section:last-of-type {
+  margin-bottom: 60px;
+}
+
+.federwi-symbol {
+    width: 50%; /* Default size */
+    height: auto;
+    max-width: 100%;
+}
+
+/* Image Generation Button Styling */
+#space-btn {
+  background-color: #1a237e;
+  border-color: #1a237e;
+}
+
+#space-btn:hover {
+  background-color: #3949ab;
+  border-color: #3949ab;
+}
+
+#earth-btn {
+  background-color: #1b5e20;
+  border-color: #1b5e20;
+}
+
+#earth-btn:hover {
+  background-color: #2e7d32;
+  border-color: #2e7d32;
+}
+
+#art-btn {
+  background-color: #b71c1c;
+  border-color: #b71c1c;
+}
+
+#art-btn:hover {
+  background-color: #e53935;
+  border-color: #e53935;
+} 

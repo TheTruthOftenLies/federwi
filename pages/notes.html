@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Notes - Federwi V2</title>
+  
+  <!-- Bootstrap CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="../index.html"><img src="../img/federwi_banner.svg" alt="Federwi V2"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="todo.html">To Do</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="notes.html">Notes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="calendar.html">Calendar</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="profile.html">Profile</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content Section -->
+  <div class="floating-content">
+    <!-- Notes Header Section -->
+    <header class="page-header">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8 text-center">
+            <h1 class="text-white">Notes</h1>
+            <p class="lead text-white opacity-8">Capture your ideas and keep them organized</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Add Note Section -->
+    <section class="py-5 position-relative">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <div class="card shadow-lg mb-5">
+              <div class="card-header">
+                <h4 class="m-0">Add New Note</h4>
+              </div>
+              <div class="card-body">
+                <form id="note-form">
+                  <div class="mb-3">
+                    <input type="text" class="form-control" id="note-title" placeholder="Title" required>
+                  </div>
+                  <div class="mb-3">
+                    <textarea class="form-control" id="note-content" rows="4" placeholder="Write your note here..." required></textarea>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <div>
+                      <button type="button" class="btn btn-outline-secondary me-2">
+                        <i class="material-icons">attach_file</i>
+                      </button>
+                      <button type="button" class="btn btn-outline-secondary">
+                        <i class="material-icons">format_list_bulleted</i>
+                      </button>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Note</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notes List Section -->
+    <section class="py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+              <h2>My Notes</h2>
+              <div class="input-group w-auto">
+                <input type="text" class="form-control" placeholder="Search notes...">
+                <button class="btn btn-primary" type="button">
+                  <i class="material-icons">search</i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" id="notes-list">
+          <!-- Note 1 -->
+          <div class="col-md-4 mb-4">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title">Project Ideas</h5>
+                <p class="card-text">Build a personal task management app with dark mode support and modern UI design.</p>
+              </div>
+              <div class="card-footer d-flex justify-content-between">
+                <small class="text-muted">Created 5/20/2025</small>
+                <button class="btn btn-sm btn-outline-danger delete-note">
+                  <i class="material-icons">delete</i>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Note 2 -->
+          <div class="col-md-4 mb-4">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title">Meeting Notes</h5>
+                <p class="card-text">Discussed project timeline and delegated tasks. Next meeting scheduled for Friday.</p>
+              </div>
+              <div class="card-footer d-flex justify-content-between">
+                <small class="text-muted">Created 5/19/2025</small>
+                <button class="btn btn-sm btn-outline-danger delete-note">
+                  <i class="material-icons">delete</i>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Note 3 -->
+          <div class="col-md-4 mb-4">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title">Research Resources</h5>
+                <p class="card-text">List of helpful websites and references for the current project research phase.</p>
+              </div>
+              <div class="card-footer d-flex justify-content-between">
+                <small class="text-muted">Created 5/18/2025</small>
+                <button class="btn btn-sm btn-outline-danger delete-note">
+                  <i class="material-icons">delete</i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="py-5">
+      <div class="container">
+        <div class="row text-center mb-5">
+          <div class="col-12">
+            <h2>Note Categories</h2>
+            <p class="lead text-muted">Organize your notes by category</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 mb-4">
+            <div class="card h-100">
+              <div class="card-body text-center">
+                <i class="material-icons mb-3" style="font-size: 48px; color: var(--accent-color);">work</i>
+                <h4 class="card-title">Work</h4>
+                <p class="card-text">10 notes</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-4">
+            <div class="card h-100">
+              <div class="card-body text-center">
+                <i class="material-icons mb-3" style="font-size: 48px; color: var(--accent-color);">school</i>
+                <h4 class="card-title">Personal</h4>
+                <p class="card-text">5 notes</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-4">
+            <div class="card h-100">
+              <div class="card-body text-center">
+                <i class="material-icons mb-3" style="font-size: 48px; color: var(--accent-color);">auto_stories</i>
+                <h4 class="card-title">Learning</h4>
+                <p class="card-text">8 notes</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-4">
+            <div class="card h-100">
+              <div class="card-body text-center">
+                <i class="material-icons mb-3" style="font-size: 48px; color: var(--accent-color);">add_circle</i>
+                <h4 class="card-title">Add New</h4>
+                <p class="card-text">Create a new category</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer class="py-2">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 text-center text-md-start">
+          <p class="mb-0">Private Website</p>
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <a href="#" class="me-3">Privacy Policy</a>
+          <a href="#" class="">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Custom JS -->
+  <script type="module" src="../js/app.js"></script>
+</body>
+</html> 
