@@ -12,7 +12,6 @@
   --warning-color: #ff9800;
   --info-color: #2196F3;
 }
-
 body {
   background-image: url('../img/landscape background.jpg');
   background-size: cover;
@@ -23,16 +22,16 @@ body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
-  /* Ensuring the body takes up the full viewport */
-  width: 100vw;
- 
+  width: 100%;
   min-height: 100vh;
-  /* width: 100%;
-  height: 100%; */
   transition: background-image 1s ease-in-out;
-  /* Enhanced image quality properties */
   image-rendering: crisp-edges;
   image-rendering: -webkit-optimize-contrast;
+  font-size: 20px;
+}
+
+.spacer {
+  height: 100vh;
 }
 
 /* Header - Transparent but preserved exactly */
@@ -41,9 +40,16 @@ body {
   backdrop-filter: blur(10px);
   position: fixed;
   top: 0;
-  width: 100%;
+  width: 100vw;
   z-index: 1000;
   padding: 10px 0;
+  left: 0;
+  right: 0;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+  color: var(--primary-text);
 }
 
 .navbar-dark .navbar-nav .nav-link,
@@ -81,7 +87,7 @@ body {
 
 /* Add top buffer for home page content */
 #home-content {
-  margin-top: 50%; /* Increased margin for buffer */
+  /* margin-top: 15%; */ /* Increased margin for buffer */
 }
 
 /* Center content styles */
@@ -91,8 +97,8 @@ body {
 }
 
 .page-header img {
-  max-width: 1000px; /* Doubled size */
-  height: auto;
+  max-width: auto; /* Doubled size */
+  height: 500px;
   
 }
 
@@ -103,17 +109,18 @@ body {
 }
 
 .page-header .lead {
-  font-size: 1.25rem;
-  max-width: 800px;
-  margin: 0 auto;
-  line-height: 1.6;
+  font-size: 1.5rem;
+  width: 100%;
+  max-width: none;
+  margin: 0 auto 2rem auto;
+  text-align: center;
 }
 
 .page-header .buttons {
   margin-top: 2rem;
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 8rem;
 }
 
 .page-header .buttons .btn {
@@ -199,7 +206,7 @@ a:hover {
 }
 
 .text-muted {
-  color: var(--secondary-text) !important;
+  color: var(--primary-text) !important;
 }
 
 /* Form styling */
@@ -228,8 +235,14 @@ footer {
   color: var(--primary-text);
   position: fixed;
   bottom: 0;
-  width: 100%;
+  width: 100vw;
   z-index: 1000;
+  left: 0;
+  right: 0;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 footer a {
@@ -271,32 +284,47 @@ section:last-of-type {
 }
 
 /* Image Generation Button Styling */
-#space-btn {
-  background-color: #1a237e;
-  border-color: #1a237e;
+#space-btn, #earth-btn, #art-btn {
+  background-color: transparent;
+  border: 2px solid #fff;
+  color: #fff;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+#space-btn:hover, #earth-btn:hover, #art-btn:hover {
+  background-color: transparent;
+  border: 3px solid #fff;
+  color: #fff;
+  box-shadow: 0 0 8px 2px rgba(255,255,255,0.2);
 }
 
-#space-btn:hover {
-  background-color: #3949ab;
-  border-color: #3949ab;
+.login-box {
+  margin-top: 10%;
+  background: var(--card-bg);
+  backdrop-filter: blur(3px);
+  border-radius: 12px;
+  max-width: 500px;
+  width: 100%;
+  color: #fff;
+  text-align: center;
 }
-
-#earth-btn {
-  background-color: #1b5e20;
-  border-color: #1b5e20;
+.login-box label,
+.login-box h2,
+.login-box small,
+.login-box a,
+.login-box .form-label {
+  color: #fff !important;
 }
-
-#earth-btn:hover {
-  background-color: #2e7d32;
-  border-color: #2e7d32;
+.login-box .form-control {
+  background-color: rgba(0,0,0,0.3);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.2);
 }
-
-#art-btn {
-  background-color: #b71c1c;
-  border-color: #b71c1c;
+.login-box .form-control::placeholder {
+  color: #fff;
+  opacity: 0.7;
 }
-
-#art-btn:hover {
-  background-color: #e53935;
-  border-color: #e53935;
+.login-box .btn-primary {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: #fff;
 } 

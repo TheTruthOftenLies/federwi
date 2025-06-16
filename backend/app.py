@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import openai
 import os
@@ -6,6 +6,7 @@ import requests
 import random
 from dotenv import load_dotenv
 from datetime import datetime
+import json
 
 # Load environment variables
 load_dotenv()
@@ -15,6 +16,237 @@ CORS(app)
 
 # Configure OpenAI
 openai.api_key = os.getenv('OPENAI_API_KEY')
+
+# Daily images directory
+DAILY_IMAGES_DIR = 'backend/daily_images'
+
+def create_daily_images_directory():
+    """Create the daily images directory if it doesn't exist"""
+    if not os.path.exists(DAILY_IMAGES_DIR):
+        os.makedirs(DAILY_IMAGES_DIR)
+
+def get_today_date():
+    """Get today's date in YYYY-MM-DD format"""
+    return datetime.now().strftime('%Y-%m-%d')
+
+def download_image(url, filename):
+    """Download an image from URL and save it locally"""
+    try:
+        response = requests.get(url, stream=True, timeout=30)
+        response.raise_for_status()
+        
+        filepath = os.path.join(DAILY_IMAGES_DIR, filename)
+        with open(filepath, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                f.write(chunk)
+        
+        return filepath
+    except Exception as e:
+        print(f"Error downloading image: {e}")
+        return None
+
+def fetch_nasa_image():
+    """Fetch NASA APOD image and description"""
+    try:
+        nasa_api_key = os.getenv('NASA_API')
+        if not nasa_api_key:
+            print("NASA API key not found")
+            return None
+        
+        url = f"https://api.nasa.gov/planetary/apod?api_key={nasa_api_key}"
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()
+        
+        data = response.json()
+        
+        if data.get('media_type') == 'image':
+            # Use HD URL if available, otherwise regular URL
+            image_url = data.get('hdurl') or data.get('url')
+            if image_url:
+                today = get_today_date()
+                filename = f"nasa_{today}.jpg"
+                filepath = download_image(image_url, filename)
+                
+                if filepath:
+                    return {
+                        'type': 'space',
+                        'image_path': filepath,
+                        'description': data.get('explanation', ''),
+                        'title': data.get('title', ''),
+                        'date': today
+                    }
+        
+        return None
+    except Exception as e:
+        print(f"Error fetching NASA image: {e}")
+        return None
+
+def fetch_natgeo_image():
+    """Fetch National Geographic daily photo"""
+    try:
+        url = "https://natgeoapi.herokuapp.com/api/dailyphoto"
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()
+        
+        data = response.json()
+        
+        # Construct full URL if needed
+        image_url = data.get('src')
+        if image_url:
+            if image_url.startswith('//'):
+                image_url = 'https:' + image_url
+            elif not image_url.startswith('http'):
+                image_url = 'https://' + image_url
+            
+            today = get_today_date()
+            filename = f"natgeo_{today}.jpg"
+            filepath = download_image(image_url, filename)
+            
+            if filepath:
+                return {
+                    'type': 'earth',
+                    'image_path': filepath,
+                    'description': data.get('description', ''),
+                    'title': data.get('alt', ''),
+                    'credit': data.get('credit', ''),
+                    'date': today
+                }
+        
+        return None
+    except Exception as e:
+        print(f"Error fetching National Geographic image: {e}")
+        return None
+
+def fetch_art_image():
+    """Fetch Art Institute of Chicago artwork"""
+    try:
+        # Get a random page number for more randomness
+        import random
+        random_page = random.randint(1, 100)
+        
+        # Get artworks with images only
+        url = f"https://api.artic.edu/api/v1/artworks?limit=10&page={random_page}&fields=id,title,image_id,artist_display,date_display,thumbnail,artist_title"
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()
+        
+        data = response.json()
+        
+        if data.get('data') and len(data['data']) > 0:
+            # Filter for artworks with image_id
+            artworks_with_images = [artwork for artwork in data['data'] if artwork.get('image_id')]
+            
+            if artworks_with_images:
+                # Pick a random artwork from those with images
+                artwork = random.choice(artworks_with_images)
+                image_id = artwork.get('image_id')
+                
+                if image_id:
+                    # Construct image URL
+                    image_url = f"https://www.artic.edu/iiif/2/{image_id}/full/843,/0/default.jpg"
+                    
+                    today = get_today_date()
+                    filename = f"art_{today}.jpg"
+                    filepath = download_image(image_url, filename)
+                    
+                    if filepath:
+                        return {
+                            'type': 'art',
+                            'image_path': filepath,
+                            'description': f"Artist: {artwork.get('artist_display', 'Unknown')}, Date: {artwork.get('date_display', 'Unknown')}",
+                            'title': artwork.get('title', 'Untitled'),
+                            'artist': artwork.get('artist_title', 'Unknown'),
+                            'date': today
+                        }
+        
+        return None
+    except Exception as e:
+        print(f"Error fetching Art Institute image: {e}")
+        return None
+
+def save_daily_data(data):
+    """Save daily image data to JSON file"""
+    try:
+        today = get_today_date()
+        data_file = os.path.join(DAILY_IMAGES_DIR, f"daily_data_{today}.json")
+        
+        with open(data_file, 'w') as f:
+            json.dump(data, f, indent=2)
+        
+        return True
+    except Exception as e:
+        print(f"Error saving daily data: {e}")
+        return False
+
+def load_daily_data():
+    """Load today's daily data if it exists"""
+    try:
+        today = get_today_date()
+        data_file = os.path.join(DAILY_IMAGES_DIR, f"daily_data_{today}.json")
+        
+        if os.path.exists(data_file):
+            with open(data_file, 'r') as f:
+                return json.load(f)
+        
+        return None
+    except Exception as e:
+        print(f"Error loading daily data: {e}")
+        return None
+
+@app.route('/api/daily-images', methods=['GET'])
+def get_daily_images():
+    """Get today's daily images, fetching them if not already cached"""
+    try:
+        create_daily_images_directory()
+        
+        # Check if we already have today's data
+        existing_data = load_daily_data()
+        if existing_data:
+            return jsonify(existing_data)
+        
+        # Fetch new images for today
+        daily_data = {}
+        
+        # Fetch NASA image
+        nasa_data = fetch_nasa_image()
+        if nasa_data:
+            daily_data['space'] = nasa_data
+        
+        # Fetch National Geographic image
+        natgeo_data = fetch_natgeo_image()
+        if natgeo_data:
+            daily_data['earth'] = natgeo_data
+        
+        # Fetch Art Institute image
+        art_data = fetch_art_image()
+        if art_data:
+            daily_data['art'] = art_data
+        
+        # Save the data
+        if daily_data:
+            save_daily_data(daily_data)
+        
+        return jsonify(daily_data)
+        
+    except Exception as e:
+        print(f"Error getting daily images: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/daily-images/<image_type>', methods=['GET'])
+def serve_daily_image(image_type):
+    """Serve a daily image file"""
+    try:
+        today = get_today_date()
+        filename = f"{image_type}_{today}.jpg"
+        filepath = os.path.join(DAILY_IMAGES_DIR, filename)
+        
+        if os.path.exists(filepath):
+            return send_file(filepath, mimetype='image/jpeg')
+        else:
+            return jsonify({'error': 'Image not found'}), 404
+            
+    except Exception as e:
+        print(f"Error serving daily image: {e}")
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/api/ask', methods=['POST'])
 def ask():
@@ -329,4 +561,4 @@ def generate_image():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000) 
+    app.run(debug=True, port=3001) 
