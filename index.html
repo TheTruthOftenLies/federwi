@@ -16,75 +16,148 @@
   
   <!-- Custom CSS -->
   <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    #intro-video-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    #intro-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .main-content {
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+    
+    .main-content.show {
+      opacity: 1;
+    }
+  </style>
 </head>
 
 <body>
-  <!-- Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="index.html"><img src="img/federwi_banner.svg" alt="Federwi V2"></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="about.html">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="login.html">Log in</a>
-          </li>
-        </ul>
+  <!-- Intro Video Overlay -->
+  <div id="intro-video-overlay">
+    <video id="intro-video" autoplay muted playsinline>
+      <source src="img/federwi_intro_v2.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- Main Content (initially hidden) -->
+  <div class="main-content" id="main-content">
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="index.html"><img src="img/federwi_banner.svg" alt="Federwi V2"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="login.html">Log in</a>
+            </li>
+          </ul>
+        </div>
       </div>
+    </nav>
+
+    <div class="spacer"></div>
+
+    <!-- Content Section -->
+    <div class="floating-content" id="home-content">
+      <!-- Header Section -->
+      <header class="page-header text-center">
+              <img src="img/federwi_symbol.svg" alt="Federwi Symbol" class="mb-4 federwi-symbol">
+              <h1 class="text-white font-weight-bold mb-4">ABOUT THE BACKGROUND IMAGE:</h1>
+              <p class="text-white opacity-8 lead" id="image-description">This stunning view captures the historic city of Siena, Italy, with the magnificent Siena Cathedral (Duomo di Siena) dominating the skyline. Built between the 12th and 14th centuries, the cathedral is a masterpiece of Italian Romanesque-Gothic architecture, famous for its striped marble façade and intricate mosaic floors. Siena itself was a powerful and wealthy city-state during the Middle Ages, often in fierce rivalry with nearby Florence. Today, its perfectly preserved medieval character, winding alleys, and the world-famous Palio horse race make it a living time capsule of Italian heritage.</p>
+              <div class="buttons mt-4">
+                <button id="space-btn" class="btn btn-primary">Space</button>
+                <button id="earth-btn" class="btn btn-primary">Earth</button>
+                <button id="art-btn" class="btn btn-primary">Art</button>
+        </div>
+      </header>
+
+      <!-- Features Section -->
+      <section class="py-5" id="features">
+        <div class="container">
+          <div class="row text-center mb-5">
+            <div class="col-12">
+              <h2>Life, organized</h2>
+              <p class="lead text-muted">Federwi Family Software is developing a personal task manager for the family.</p>
+              <img src="img/Life, Organized Screenshot.png" alt="Life, Organized Screenshot" class="img-fluid mt-4" style="max-width: 1000px; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.2);">
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
-  </nav>
 
-  <div class="spacer"></div>
-
-  <!-- Content Section -->
-  <div class="floating-content" id="home-content">
-    <!-- Header Section -->
-    <header class="page-header text-center">
-            <img src="img/federwi_symbol.svg" alt="Federwi Symbol" class="mb-4 federwi-symbol">
-            <h1 class="text-white font-weight-bold mb-4">ABOUT THE BACKGROUND IMAGE:</h1>
-            <p class="text-white opacity-8 lead" id="image-description">This stunning view captures the historic city of Siena, Italy, with the magnificent Siena Cathedral (Duomo di Siena) dominating the skyline. Built between the 12th and 14th centuries, the cathedral is a masterpiece of Italian Romanesque-Gothic architecture, famous for its striped marble façade and intricate mosaic floors. Siena itself was a powerful and wealthy city-state during the Middle Ages, often in fierce rivalry with nearby Florence. Today, its perfectly preserved medieval character, winding alleys, and the world-famous Palio horse race make it a living time capsule of Italian heritage.</p>
-            <div class="buttons mt-4">
-              <button id="space-btn" class="btn btn-primary">Space</button>
-              <button id="earth-btn" class="btn btn-primary">Earth</button>
-              <button id="art-btn" class="btn btn-primary">Art</button>
-      </div>
-    </header>
-
-    <!-- Features Section -->
-    <section class="py-5" id="features">
-      <div class="container">
-        <div class="row text-center mb-5">
-          <div class="col-12">
-            <h2>Life, organized</h2>
-            <p class="lead text-muted">Federwi Family Software is developing a personal task manager for the family.</p>
-            <img src="img/Life, Organized Screenshot.png" alt="Life, Organized Screenshot" class="img-fluid mt-4" style="max-width: 1000px; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.2);">
+    <!-- Footer -->
+    <footer class="py-2">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <p class="mb-0">Private Website - contact tyler@federwi.com for more information</p>
           </div>
         </div>
       </div>
-    </section>
+    </footer>
   </div>
-
-  <!-- Footer -->
-  <footer class="py-2">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12 text-center">
-          <p class="mb-0">Private Website - contact tyler@federwi.com for more information</p>
-        </div>
-      </div>
-    </div>
-  </footer>
 
   <!-- Bootstrap Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Background Manager -->
   <script src="js/background-manager.js"></script>
   <script>
+    // Intro video functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const introOverlay = document.getElementById('intro-video-overlay');
+      const introVideo = document.getElementById('intro-video');
+      const mainContent = document.getElementById('main-content');
+      
+      // Check if user has already seen the video in this session
+      const hasSeenIntro = sessionStorage.getItem('federwi_intro_seen');
+      
+      if (hasSeenIntro) {
+        // User has seen the intro, show main content immediately
+        introOverlay.style.display = 'none';
+        mainContent.classList.add('show');
+      } else {
+        // First time in this session, play the intro
+        sessionStorage.setItem('federwi_intro_seen', 'true');
+        
+        // Handle video end
+        introVideo.addEventListener('ended', function() {
+          introOverlay.style.display = 'none';
+          mainContent.classList.add('show');
+        });
+        
+        // Fallback in case video doesn't load or play
+        setTimeout(function() {
+          if (introOverlay.style.display !== 'none') {
+            introOverlay.style.display = 'none';
+            mainContent.classList.add('show');
+          }
+        }, 3000); // 3 second fallback
+      }
+    });
+
     window.addEventListener('load', function() {
       var homeContent = document.getElementById('home-content');
       if (homeContent) {
