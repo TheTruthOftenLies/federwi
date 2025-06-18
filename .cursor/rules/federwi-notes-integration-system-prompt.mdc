@@ -1,0 +1,50 @@
+---
+description: use for changes to the federwi v0.2.0 for 14 June 2025
+globs: 
+alwaysApply: false
+---
+Project Name: Life Organizer
+Context: The app is fully containerized in Docker. It includes a completed Task Management section and a placeholder Notes section. The app is for personal use and runs locally.
+
+IMPORTANT SYSTEM RULES:
+
+Do not alter the Task Management section:
+
+This includes its frontend layout, backend routes, Postgres database tables, and any JavaScript or Python logic related to tasks.
+
+Task-related bugs may still be fixed, but no features should be changed or removed while working on Notes.
+
+Scope of Work – Notes Section:
+
+The Notes section is being developed from scratch.
+
+It will use a new table(s) in the existing Postgres database, connected only via user_id.
+
+It should use a modular structure and be confined to its own route(s), component(s), and schema(s).
+
+Frontend UI Rules:
+
+Common elements like the navbar and header must remain untouched.
+
+Changes should be scoped to the main content area.
+
+Version Control Discipline:
+
+Commit messages should include [NOTES] prefix.
+
+Avoid modifying or deleting any file or code block that clearly belongs to the Task Management section unless it's a critical bug fix.
+
+Testing Discipline:
+
+After each major change to Notes, manually test Task Management for regressions before pushing.
+
+Development Goals for Notes:
+
+Whiteboard-style flexible notes interface.
+
+Support for text (including bullets and numbered lists).
+
+Ability to draw and display basic graphs (line, bar, etc.).
+
+
+Seamless transition from Task section to Notes in UX flow.
