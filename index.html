@@ -87,11 +87,10 @@
               <img src="img/federwi_symbol.svg" alt="Federwi Symbol" class="mb-4 federwi-symbol">
               <h1 class="text-white font-weight-bold mb-4">ABOUT THE BACKGROUND IMAGE:</h1>
               <p class="text-white opacity-8 lead" id="image-description">This stunning view captures the historic city of Siena, Italy, with the magnificent Siena Cathedral (Duomo di Siena) dominating the skyline. Built between the 12th and 14th centuries, the cathedral is a masterpiece of Italian Romanesque-Gothic architecture, famous for its striped marble façade and intricate mosaic floors. Siena itself was a powerful and wealthy city-state during the Middle Ages, often in fierce rivalry with nearby Florence. Today, its perfectly preserved medieval character, winding alleys, and the world-famous Palio horse race make it a living time capsule of Italian heritage.</p>
-              <!-- <div class="buttons mt-4">
+              <div class="buttons mt-4">
                 <button id="space-btn" class="btn btn-primary">Space</button>
-                <button id="earth-btn" class="btn btn-primary">Earth</button>
                 <button id="art-btn" class="btn btn-primary">Art</button>
-        </div> -->
+        </div> 
       </header>
 
       <!-- Features Section -->
@@ -131,6 +130,13 @@
       const introVideo = document.getElementById('intro-video');
       const mainContent = document.getElementById('main-content');
       
+      function initializeBackgroundManager() {
+        console.log('[Federwi] Initializing background manager after content is shown');
+        if (!window.backgroundManager) {
+          window.backgroundManager = new BackgroundManager();
+        }
+      }
+      
       // Check if user has already seen the video in this session
       const hasSeenIntro = sessionStorage.getItem('federwi_intro_seen');
       
@@ -138,6 +144,8 @@
         // User has seen the intro, show main content immediately
         introOverlay.style.display = 'none';
         mainContent.classList.add('show');
+        // Initialize background manager after content is shown
+        setTimeout(initializeBackgroundManager, 100);
       } else {
         // First time in this session, play the intro
         sessionStorage.setItem('federwi_intro_seen', 'true');
@@ -146,6 +154,8 @@
         introVideo.addEventListener('ended', function() {
           introOverlay.style.display = 'none';
           mainContent.classList.add('show');
+          // Initialize background manager after content is shown
+          setTimeout(initializeBackgroundManager, 100);
         });
         
         // Fallback in case video doesn't load or play
@@ -153,6 +163,8 @@
           if (introOverlay.style.display !== 'none') {
             introOverlay.style.display = 'none';
             mainContent.classList.add('show');
+            // Initialize background manager after content is shown
+            setTimeout(initializeBackgroundManager, 100);
           }
         }, 3000); // 3 second fallback
       }
