@@ -48,7 +48,7 @@ def download_image(url, filename):
 def fetch_nasa_image():
     """Fetch NASA APOD image and description"""
     try:
-        nasa_api_key = os.getenv('NASA_API')
+        nasa_api_key = os.getenv('NASA_API_KEY')
         if not nasa_api_key:
             print("NASA API key not found")
             return None
@@ -163,6 +163,65 @@ def fetch_art_image():
         print(f"Error fetching Art Institute image: {e}")
         return None
 
+def fetch_nasa_image_data():
+    """Fetch NASA APOD data without saving files"""
+    try:
+        nasa_api_key = os.getenv('NASA_API_KEY')
+        if not nasa_api_key:
+            print("NASA API key not found")
+            return None
+        
+        url = f"https://api.nasa.gov/planetary/apod?api_key={nasa_api_key}"
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()
+        
+        data = response.json()
+        
+        if data.get('media_type') == 'image':
+            # Use HD URL if available, otherwise regular URL
+            image_url = data.get('hdurl') or data.get('url')
+            if image_url:
+                return {
+                    'url': image_url,
+                    'description': data.get('explanation', ''),
+                    'title': data.get('title', 'NASA Astronomy Picture of the Day')
+                }
+        
+        return None
+    except Exception as e:
+        print(f"Error fetching NASA image: {e}")
+        return None
+
+def fetch_art_image_data():
+    """Fetch Art Institute of Chicago artwork data without saving files"""
+    try:
+        # Get artworks with images only
+        url = f"https://api.artic.edu/api/v1/artworks?limit=1&page=1&fields=id,title,image_id,artist_display,date_display,thumbnail,artist_title"
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()
+        
+        data = response.json()
+        
+        if data.get('data') and len(data['data']) > 0:
+            artwork = data['data'][0]
+            image_id = artwork.get('image_id')
+            
+            if image_id:
+                # Construct image URL
+                image_url = f"https://www.artic.edu/iiif/2/{image_id}/full/843,/0/default.jpg"
+                
+                return {
+                    'url': image_url,
+                    'description': f"{artwork.get('title', 'Untitled')} by {artwork.get('artist_title', 'Unknown Artist')}{(' (' + artwork.get('date_display', '') + ')') if artwork.get('date_display') else ''}. {artwork.get('artist_display', '')}",
+                    'title': artwork.get('title', 'Untitled'),
+                    'artist': artwork.get('artist_title', 'Unknown Artist')
+                }
+        
+        return None
+    except Exception as e:
+        print(f"Error fetching Art Institute image: {e}")
+        return None
+
 def save_daily_data(data):
     """Save daily image data to JSON file"""
     try:
@@ -194,36 +253,20 @@ def load_daily_data():
 
 @app.route('/api/daily-images', methods=['GET'])
 def get_daily_images():
-    """Get today's daily images, fetching them if not already cached"""
+    """Get fresh daily images from NASA and ArtIC APIs"""
     try:
-        create_daily_images_directory()
-        
-        # Check if we already have today's data
-        existing_data = load_daily_data()
-        if existing_data:
-            return jsonify(existing_data)
-        
-        # Fetch new images for today
+        # Always fetch fresh data for production
         daily_data = {}
         
         # Fetch NASA image
-        nasa_data = fetch_nasa_image()
+        nasa_data = fetch_nasa_image_data()
         if nasa_data:
             daily_data['space'] = nasa_data
         
-        # Fetch National Geographic image
-        natgeo_data = fetch_natgeo_image()
-        if natgeo_data:
-            daily_data['earth'] = natgeo_data
-        
         # Fetch Art Institute image
-        art_data = fetch_art_image()
+        art_data = fetch_art_image_data()
         if art_data:
             daily_data['art'] = art_data
-        
-        # Save the data
-        if daily_data:
-            save_daily_data(daily_data)
         
         return jsonify(daily_data)
         

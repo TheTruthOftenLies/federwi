@@ -38,52 +38,22 @@ class BackgroundManager {
         }
         
         if (!useCache) {
-            console.log('[Federwi] Fetching fresh images from APIs');
-            this.dailyImages = {};
-            
-            // Fetch NASA APOD
+            console.log('[Federwi] Fetching fresh images from backend');
             try {
-                const nasaResponse = await fetch('https://api.nasa.gov/planetary/apod?api_key=NASA_API_KEY');
-                if (nasaResponse.ok) {
-                    const nasaData = await nasaResponse.json();
-                    if (nasaData.media_type === 'image') {
-                        this.dailyImages.space = {
-                            url: nasaData.url,
-                            description: nasaData.explanation || nasaData.title || 'NASA Astronomy Picture of the Day'
-                        };
-                        console.log('[Federwi] NASA image loaded:', this.dailyImages.space);
-                    }
+                const response = await fetch(`${this.apiBase}/api/daily-images`);
+                if (response.ok) {
+                    this.dailyImages = await response.json();
+                    // Save to localStorage with today's date
+                    localStorage.setItem('federwi_daily_images', JSON.stringify({ 
+                        date: today, 
+                        data: this.dailyImages 
+                    }));
+                    console.log('[Federwi] Images fetched and cached');
+                } else {
+                    console.error('[Federwi] Failed to load daily images from backend');
                 }
             } catch (error) {
-                console.error('[Federwi] NASA API error:', error);
-            }
-            
-            // Fetch Art Institute of Chicago artwork
-            try {
-                const articResponse = await fetch('https://api.artic.edu/api/v1/artworks?limit=1&page=1&fields=id,title,image_id,artist_display,date_display,thumbnail,artist_title');
-                if (articResponse.ok) {
-                    const articData = await articResponse.json();
-                    if (articData.data && articData.data[0] && articData.data[0].image_id) {
-                        const artwork = articData.data[0];
-                        const imageUrl = `https://www.artic.edu/iiif/2/${artwork.image_id}/full/843,/0/default.jpg`;
-                        this.dailyImages.art = {
-                            url: imageUrl,
-                            description: `${artwork.title || 'Untitled'} by ${artwork.artist_title || 'Unknown Artist'}${artwork.date_display ? ` (${artwork.date_display})` : ''}. ${artwork.artist_display || ''}`
-                        };
-                        console.log('[Federwi] ArtIC image loaded:', this.dailyImages.art);
-                    }
-                }
-            } catch (error) {
-                console.error('[Federwi] ArtIC API error:', error);
-            }
-            
-            // Save to localStorage with today's date
-            if (Object.keys(this.dailyImages).length > 0) {
-                localStorage.setItem('federwi_daily_images', JSON.stringify({ 
-                    date: today, 
-                    data: this.dailyImages 
-                }));
-                console.log('[Federwi] Images cached for today');
+                console.error('[Federwi] Error loading daily images:', error);
             }
         }
         
