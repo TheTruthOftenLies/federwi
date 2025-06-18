@@ -148,6 +148,21 @@ body {
   }
 }
 
+@media (max-width: 600px) {
+  .page-header .buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+  }
+  .page-header .buttons .btn {
+    width: 90vw;
+    min-width: unset;
+    font-size: 1rem;
+    padding: 0.75rem 0;
+    max-width: 350px;
+  }
+}
+
 .floating-content h1, .floating-content h2, .floating-content h3, .floating-content h4, .floating-content h5, .floating-content h6,
 .floating-content p, .floating-content span, .floating-content li {
   color: var(--primary-text);
